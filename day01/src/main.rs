@@ -11,15 +11,16 @@ enum Error {
 }
 
 fn main() -> Result<(), Error> {
-    let current_dir = env::current_dir().expect("Failed to get current working directory");
+    let root_dir = env::current_dir().expect("Failed to get current working directory");
     let args: Vec<String> = env::args().collect();
 
-    // let file_path = current_dir.join("sample-2.txt");
-    let file_path = current_dir.join("input.txt");
+    // to test with sample data
+    // let file_path = root_dir.join("src").join("sample-2.txt");
+    let file_path = root_dir.join("src").join("input.txt");
+    
     // Create a Line instance from a file
     let mut line_reader = Line::new(file_path).map_err(Error::Io)?;
 
-    // Example usage
     let mut total: u32 = 0;
     let func = match args.get(1) {
         Some(arg) => match arg.as_str() {
@@ -38,7 +39,6 @@ fn main() -> Result<(), Error> {
     loop {
         match line_reader.read() {
             Ok(Some(line)) => {
-                // total += part_one(line);
                 total += func(line);
             }
             Ok(None) => {
@@ -47,7 +47,7 @@ fn main() -> Result<(), Error> {
             }
             Err(e) => {
                 eprintln!("Error reading line: {}", e);
-                break;
+                return Err(Error::Io(e));
             }
         }
     }
@@ -93,7 +93,6 @@ fn char_to_digit(c: char) -> Option<u8> {
 
 #[allow(dead_code)]
 fn part_one(line: String) -> u32 {
-    // Do something with the line
     let mut digits: Vec<u8> = Vec::new();
     for ch in line.chars() {
         match char_to_digit(ch) {
