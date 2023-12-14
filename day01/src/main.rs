@@ -8,6 +8,7 @@ enum Error {
     NoArg,
     InvalidArg,
     Io(io::Error),
+    NoNumber,
 }
 
 fn main() -> Result<(), Error> {
@@ -17,7 +18,7 @@ fn main() -> Result<(), Error> {
     // to test with sample data
     // let file_path = root_dir.join("src").join("sample-2.txt");
     let file_path = root_dir.join("src").join("input.txt");
-    
+
     // Create a Line instance from a file
     let mut line_reader = Line::new(file_path).map_err(Error::Io)?;
 
@@ -39,7 +40,7 @@ fn main() -> Result<(), Error> {
     loop {
         match line_reader.read() {
             Ok(Some(line)) => {
-                total += func(line);
+                total += func(line)?;
             }
             Ok(None) => {
                 // End of file reached
@@ -92,7 +93,7 @@ fn char_to_digit(c: char) -> Option<u8> {
 }
 
 #[allow(dead_code)]
-fn part_one(line: String) -> u32 {
+fn part_one(line: String) -> Result<u32, Error> {
     let mut digits: Vec<u8> = Vec::new();
     for ch in line.chars() {
         match char_to_digit(ch) {
@@ -101,11 +102,12 @@ fn part_one(line: String) -> u32 {
         }
     }
     if digits.len() == 0 {
-        panic!("There must be number in each line! {}", line)
+        eprintln!("There must be number in each line! {}", line);
+        return Err(Error::NoNumber);
     }
     let first_digit = digits.first().unwrap();
     let last_digit = digits.last().unwrap();
-    return (first_digit * 10 + last_digit) as u32;
+    return Ok((first_digit * 10 + last_digit) as u32);
 }
 
 struct Digit {
@@ -159,7 +161,7 @@ fn create_digits() -> Vec<Digit> {
 }
 
 #[allow(dead_code)]
-fn part_two(line: String) -> u32 {
+fn part_two(line: String) -> Result<u32, Error> {
     let mut digits = Vec::new();
     let mut spell_out_digits = create_digits();
     for ch in line.chars() {
@@ -177,10 +179,11 @@ fn part_two(line: String) -> u32 {
         }
     }
     if digits.len() == 0 {
-        panic!("There must be number in each line! {}", line)
+        eprintln!("There must be number in each line! {}", line);
+        return Err(Error::NoNumber);
     }
     let first_digit = digits.first().unwrap();
     let last_digit = digits.last().unwrap();
     let result = (first_digit * 10 + last_digit) as u32;
-    return result;
+    return Ok(result);
 }
