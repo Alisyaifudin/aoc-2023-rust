@@ -149,9 +149,9 @@ fn part_two(line: String, bonus: &mut Vec<usize>) -> u32 {
     let total = 1 + pop_first(bonus, 0);
     for i in 0..matching {
         if let Some(value) = bonus.get_mut(i) {
-            *value += total; // Element exists, increment by one
+            *value += total; 
         } else {
-            bonus.push(total); // Element doesn't exist, append new element with value 0
+            bonus.push(total); 
         }
     }
     println!("matching: {}, total = {}", matching, total);
