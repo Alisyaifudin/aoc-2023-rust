@@ -1,0 +1,10 @@
+LR
+
+XXA = (XXB, XXX)
+XXB = (XXX, XXZ)
+XXZ = (XXB, XXX)
+YYA = (YYB, XXX)
+YYB = (YYC, YYC)
+YYC = (YYZ, YYZ)
+YYZ = (YYB, YYB)
+XXX = (XXX, XXX)
