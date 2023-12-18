@@ -174,20 +174,6 @@ enum Tile {
     Pipe(Pipe),
 }
 
-// impl std::fmt::Debug for Tile {
-//     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-//         match &self {
-//             Tile::Nil(_) => write!(f, "."),
-//             Tile::Pipe(pipe) => {
-//                 if pipe.animal {
-//                     write!(f, "S")
-//                 } else {
-//                     write!(f, "{}", pipe)
-//                 }
-//             }
-//         }
-//     }
-// }
 
 impl std::fmt::Display for Tile {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
